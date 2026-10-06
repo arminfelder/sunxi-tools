@@ -717,7 +717,9 @@ soc_info_t soc_info_table[] = {
 		.soc_id       = 0x1890, /* Allwinner A523 */
 		.name         = "A523",
 		.spl_addr     = 0x44000,
-		.scratch_addr = 0x45000,
+		 /* 0x44000+0x200: backup region is only 512 B; larger values
+		  * cause the BROM's FEL_READ to corrupt subsequent USB ops */
+		.scratch_addr = 0x44200,
 		.thunk_addr   = 0x40000, .thunk_size = 0x200,
 		.swap_buffers = a523_sram_swap_buffers,
 		.sram_size    = 96 * 1024,
@@ -728,6 +730,9 @@ soc_info_t soc_info_table[] = {
 		.watchdog     = &wd_a523_compat,
 		.gpio_base    = V853_PIO_BASE,
 		.ccu_base     = R329_CCM_BASE,
+		.spi_base     = A523_SPI_BASE,
+		.spi_pins     = SPI_PINS(12, 2, 3, 4),
+		.spi_pinmux   = SUN50I_GPC_SPI0,
 		.flags        = NEEDS_ICACHE_FIX | FLAGS_NCAT2,
 	},{
 		.soc_id       = 0x1855, /* Allwinner A133 */
